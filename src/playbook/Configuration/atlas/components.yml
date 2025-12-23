@@ -27,6 +27,27 @@ actions:
   - !appx: {name: 'Microsoft.MicrosoftEdge_8wekyb3d8bbwe', type: family, option: 'uninstall-edge'}
   - !registryKey: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe', operation: add, option: 'uninstall-edge'}
   - !registryKey: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\Microsoft.MicrosoftEdge_8wekyb3d8bbwe', operation: add, option: 'uninstall-edge'}
+  
+    # Additional Edge cleanup - remove Edge update services and registry remnants
+  - !service: {name: 'edgeupdate', operation: delete, ignoreErrors: true, option: 'uninstall-edge'}
+  - !service: {name: 'edgeupdatem', operation: delete, ignoreErrors: true, option: 'uninstall-edge'}
+  - !service: {name: 'MicrosoftEdgeElevationService', operation: delete, ignoreErrors: true, option: 'uninstall-edge'}
+  
+    # Remove Edge registry keys for policies
+  - !registryKey: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Edge', operation: delete, option: 'uninstall-edge'}
+  - !registryKey: {path: 'HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate', operation: delete, option: 'uninstall-edge'}
+  
+    # Disable Edge first run experience and telemetry
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Edge'
+    value: 'HideFirstRunExperience'
+    data: '1'
+    type: REG_DWORD
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Edge'
+    value: 'MetricsReportingEnabled'
+    data: '0'
+    type: REG_DWORD
 
     # OneDrive
     # The actual OneDrive setup in Windows is stripped at a component-level in the miscellaneous package

@@ -1,0 +1,32 @@
+---
+title: Optimize Developer Features
+description: Ensures essential debugging and development features remain accessible while keeping system optimized
+actions:
+  # Ensure .NET NGEN optimization is enabled for better app startup performance
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\.NETFramework'
+    value: 'UseNGenOptimization'
+    data: '1'
+    type: REG_DWORD
+    
+  # Disable Program Compatibility Assistant but keep debugging capability
+  # This allows developers to still debug applications without constant PCA interference
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat'
+    value: 'DisablePCA'
+    data: '1'
+    type: REG_DWORD
+    
+  # Keep crash dumps minimal size but available for debugging
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\CrashControl'
+    value: 'CrashDumpEnabled'
+    data: '3'
+    type: REG_DWORD
+    
+  # Optimize symbol server for faster debugging (only download on-demand)
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Symbol Server'
+    value: 'NoInternetProxy'
+    data: '1'
+    type: REG_DWORD

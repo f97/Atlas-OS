@@ -1,0 +1,74 @@
+---
+title: Aggressive RAM Optimization
+description: Additional RAM optimizations to reduce memory footprint significantly
+actions:
+  # Disable unnecessary visual effects that consume RAM
+  - !registryValue:
+    path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects'
+    value: 'VisualFXSetting'
+    data: '3'
+    type: REG_DWORD
+    
+  # Disable thumbnail cache in memory
+  - !registryValue:
+    path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+    value: 'IconsOnly'
+    data: '1'
+    type: REG_DWORD
+    
+  # Reduce DWM memory usage
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\Dwm'
+    value: 'OverlayTestMode'
+    data: '5'
+    type: REG_DWORD
+    
+  # Disable storage of recent documents in memory
+  - !registryValue:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer'
+    value: 'NoRecentDocsHistory'
+    data: '1'
+    type: REG_DWORD
+    
+  # Disable prefetching of applications to save RAM
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
+    value: 'EnablePrefetcher'
+    data: '0'
+    type: REG_DWORD
+    
+  # Disable boot prefetching
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
+    value: 'EnableBootTrace'
+    data: '0'
+    type: REG_DWORD
+    
+  # Optimize working set for better RAM management
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
+    value: 'ClearPageFileAtShutdown'
+    data: '0'
+    type: REG_DWORD
+    
+  # Disable unnecessary data execution prevention overhead for performance
+  # Note: This reduces security slightly but improves performance
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
+    value: 'FeatureSettingsOverride'
+    data: '3'
+    type: REG_DWORD
+    
+  # Reduce system responsiveness for services (favor foreground apps)
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile'
+    value: 'SystemResponsiveness'
+    data: '10'
+    type: REG_DWORD
+    
+  # Disable Remote Assistance to save RAM
+  - !registryValue:
+    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance'
+    value: 'fAllowToGetHelp'
+    data: '0'
+    type: REG_DWORD

@@ -102,3 +102,64 @@ else {
 # This is so that users can't attempt to revert from Atlas to stock with Restore Points
 # It won't work, a full Windows reinstall is required ^
 vssadmin delete shadows /all /quiet
+
+# Clean Windows Update cache (SoftwareDistribution)
+$windir = [Environment]::GetFolderPath('Windows')
+$softwareDistribution = "$windir\SoftwareDistribution\Download"
+if (Test-Path $softwareDistribution -PathType Container) {
+    Write-Output "Cleaning Windows Update cache..."
+    Remove-Item -Path "$softwareDistribution\*" -Force -Recurse -EA 0
+}
+
+# Clean Prefetch folder
+$prefetchPath = "$windir\Prefetch"
+if (Test-Path $prefetchPath -PathType Container) {
+    Write-Output "Cleaning Prefetch folder..."
+    Remove-Item -Path "$prefetchPath\*.pf" -Force -EA 0
+}
+
+# Clean Windows.old if present
+$sysDrive = (Get-SystemDrive).TrimEnd('\')
+$windowsOld = "$sysDrive\Windows.old"
+if (Test-Path $windowsOld -PathType Container) {
+    Write-Output "Cleaning Windows.old folder..."
+    takeown /f $windowsOld /r /d y 2>&1 | Out-Null
+    icacls $windowsOld /grant administrators:F /t 2>&1 | Out-Null
+    Remove-Item -Path $windowsOld -Force -Recurse -EA 0
+}
+
+# Clean Edge cache and data remnants
+$edgeCachePaths = @(
+    "$env:localappdata\Microsoft\Edge\User Data\Default\Cache",
+    "$env:localappdata\Microsoft\Edge\User Data\Default\Code Cache",
+    "$env:localappdata\Microsoft\Edge\User Data\Default\GPUCache",
+    "$env:localappdata\Microsoft\Edge\User Data\ShaderCache"
+)
+foreach ($cachePath in $edgeCachePaths) {
+    if (Test-Path $cachePath -PathType Container) {
+        Write-Output "Cleaning Edge cache: $cachePath"
+        Remove-Item -Path "$cachePath\*" -Force -Recurse -EA 0
+    }
+}
+
+# Clean Windows Error Reporting files
+$werPath = "$env:localappdata\Microsoft\Windows\WER"
+if (Test-Path $werPath -PathType Container) {
+    Write-Output "Cleaning Windows Error Reporting files..."
+    Remove-Item -Path "$werPath\*" -Force -Recurse -EA 0
+}
+
+# Clean thumbnail cache
+$thumbcachePath = "$env:localappdata\Microsoft\Windows\Explorer"
+if (Test-Path $thumbcachePath -PathType Container) {
+    Write-Output "Cleaning thumbnail cache..."
+    Remove-Item -Path "$thumbcachePath\thumbcache_*.db" -Force -EA 0
+    Remove-Item -Path "$thumbcachePath\iconcache_*.db" -Force -EA 0
+}
+
+# Clean Windows logs
+$logsPath = "$windir\Logs"
+if (Test-Path $logsPath -PathType Container) {
+    Write-Output "Cleaning Windows logs..."
+    Get-ChildItem -Path $logsPath -Include *.log,*.etl -Recurse -EA 0 | Remove-Item -Force -EA 0
+}
