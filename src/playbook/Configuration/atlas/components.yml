@@ -37,7 +37,7 @@ actions:
   - !registryKey: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Edge', operation: delete, option: 'uninstall-edge'}
   - !registryKey: {path: 'HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate', operation: delete, option: 'uninstall-edge'}
   
-    # Disable Edge first run experience and telemetry
+    # Disable Edge first run experience and telemetry (when Edge is kept or reinstalled)
   - !registryValue:
     path: 'HKLM\SOFTWARE\Policies\Microsoft\Edge'
     value: 'HideFirstRunExperience'

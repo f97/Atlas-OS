@@ -30,33 +30,11 @@ actions:
     data: '1'
     type: REG_DWORD
     
-  # Disable prefetching of applications to save RAM
-  - !registryValue:
-    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
-    value: 'EnablePrefetcher'
-    data: '0'
-    type: REG_DWORD
-    
-  # Disable boot prefetching
-  - !registryValue:
-    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters'
-    value: 'EnableBootTrace'
-    data: '0'
-    type: REG_DWORD
-    
   # Optimize working set for better RAM management
   - !registryValue:
     path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
     value: 'ClearPageFileAtShutdown'
     data: '0'
-    type: REG_DWORD
-    
-  # Disable unnecessary data execution prevention overhead for performance
-  # Note: This reduces security slightly but improves performance
-  - !registryValue:
-    path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management'
-    value: 'FeatureSettingsOverride'
-    data: '3'
     type: REG_DWORD
     
   # Reduce system responsiveness for services (favor foreground apps)
