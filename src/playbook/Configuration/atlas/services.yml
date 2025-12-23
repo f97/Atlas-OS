@@ -73,3 +73,38 @@ actions:
     # NetBios support can be enabled with the file sharing script
   - !service: {name: 'NetBT', operation: change, startup: 4}
   - !service: {name: 'Telemetry', operation: change, startup: 4}
+
+  ##############################################################################################
+  ## ADDITIONAL RAM OPTIMIZATIONS                                                            ##
+  ##############################################################################################
+
+  - !writeStatus: {status: 'Optimizing additional services for RAM'}
+
+    # Disable Windows Search indexing for lower RAM usage
+    # Users can re-enable with Atlas Desktop tools if needed
+  - !service: {name: 'WSearch', operation: change, startup: 4}
+
+    # Disable SysMain (Superfetch) for lower RAM usage
+    # Can reduce RAM usage significantly on systems with limited RAM
+  - !service: {name: 'SysMain', operation: change, startup: 4}
+
+    # Disable Windows Biometric Service
+  - !service: {name: 'WbioSrvc', operation: change, startup: 4}
+
+    # Disable Geolocation Service
+  - !service: {name: 'lfsvc', operation: change, startup: 4}
+
+    # Disable Retail Demo Service
+  - !service: {name: 'RetailDemo', operation: change, startup: 4}
+
+    # Disable Downloaded Maps Manager
+  - !service: {name: 'MapsBroker', operation: change, startup: 4}
+
+    # Disable Phone Service
+  - !service: {name: 'PhoneSvc', operation: change, startup: 4}
+
+    # Disable Payments and NFC/SE Manager
+  - !service: {name: 'SEMgrSvc', operation: change, startup: 4}
+
+    # Disable Shared PC Account Manager
+  - !service: {name: 'shpamsvc', operation: change, startup: 4}

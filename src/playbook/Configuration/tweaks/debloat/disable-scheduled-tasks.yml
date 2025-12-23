@@ -21,3 +21,31 @@ actions:
     path: 'HKLM\System\CurrentControlSet\Control\Ubpm'
     value: 'CriticalMaintenance_UsageDataReporting' # Remove from automatic maintenance
     operation: delete
+
+    # Additional RAM optimization - disable more scheduled tasks
+    # Windows Maps updates
+  - !scheduledTask: {path: '\Microsoft\Windows\Maps\MapsUpdateTask', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\Maps\MapsToastTask', operation: disable, ignoreErrors: true}
+  
+    # Shell experience optimization tasks
+  - !scheduledTask: {path: '\Microsoft\Windows\Shell\FamilySafetyMonitor', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\Shell\FamilySafetyRefreshTask', operation: disable, ignoreErrors: true}
+  
+    # Windows Media Sharing
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Media Sharing\UpdateLibrary', operation: disable, ignoreErrors: true}
+  
+    # Background maintenance that consumes RAM
+  - !scheduledTask: {path: '\Microsoft\Windows\Maintenance\WinSAT', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\MemoryDiagnostic\RunFullMemoryDiagnostic', operation: disable, ignoreErrors: true}
+  
+    # Application telemetry tasks
+  - !scheduledTask: {path: '\Microsoft\Windows\Application Experience\StartupAppTask', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\Application Experience\MareBackup', operation: disable, ignoreErrors: true}
+  
+    # Cloud experience tasks
+  - !scheduledTask: {path: '\Microsoft\Windows\CloudExperienceHost\CreateObjectTask', operation: disable, ignoreErrors: true}
+  
+    # Feedback collection
+  - !scheduledTask: {path: '\Microsoft\Windows\Feedback\Siuf\DmClient', operation: disable, ignoreErrors: true}
+  - !scheduledTask: {path: '\Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload', operation: disable, ignoreErrors: true}

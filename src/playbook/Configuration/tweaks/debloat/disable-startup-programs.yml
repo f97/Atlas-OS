@@ -1,0 +1,59 @@
+---
+title: Disable Unnecessary Startup Programs
+description: Removes unnecessary startup programs and autostart entries to reduce RAM usage and boot time
+actions:
+  # Disable Windows Tips
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    value: 'WindowsDefender'
+    operation: delete
+    
+  # Remove SecurityHealth from startup
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    value: 'SecurityHealth'
+    operation: delete
+    
+  # Disable OneDrive startup (additional cleanup)
+  - !registryValue:
+    path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Run'
+    value: 'OneDrive'
+    operation: delete
+    
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    value: 'OneDrive'
+    operation: delete
+    
+  # Disable Edge update startup tasks
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    value: 'MicrosoftEdgeAutoLaunch'
+    operation: delete
+    
+  # Disable Office startup tasks
+  - !registryValue:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    value: 'Office Automatic Updates 2.0'
+    operation: delete
+    
+  # Disable Teams startup
+  - !registryValue:
+    path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Run'
+    value: 'com.squirrel.Teams.Teams'
+    operation: delete
+    
+  # Disable Skype startup
+  - !registryValue:
+    path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Run'
+    value: 'Skype'
+    operation: delete
+    
+  # Disable unnecessary Windows startup locations
+  - !registryKey:
+    path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run'
+    operation: add
+    
+  - !registryKey:
+    path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run'
+    operation: add
